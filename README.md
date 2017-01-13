@@ -53,15 +53,15 @@ A jQuery on-screen keyboard (OSK) plugin that works in the browser. Originally p
 
 ### Extensions
 
-* Alt-keys: Show alternate keys in a popup after long-clicking on a key.
-* Autocomplete: Integrate with jQuery UI's autocomplete widget.
-* Caret: Add a caret with custom styling.
-* Extender: Add a togglable layout (e.g. toggle number pad)
-* Keyset: Show shift, alt or meta keyset within the virtual keyboard - custom styling.
-* Mobile: Use with jQuery Mobile.
-* Navigate: Use arrow, home, end &amp; page up/down to navigate inside of the keyboard.
-* Scramble: Scramble the entire keyset or by row, once or every time the keyboard is opened for added security.
-* Typing: Allows you to simulate typing into the keyboard for demo purposes or to assist user input.
+* [Alt-keys](https://mottie.github.io/Keyboard/docs/altkeys-popup.html): Show alternate keys in a popup after long-clicking on a key.
+* [Autocomplete](https://mottie.github.io/Keyboard/index.html#autocomplete): Integrate with jQuery UI's autocomplete widget.
+* [Caret](https://mottie.github.io/Keyboard/index.html#caret): Add a caret with custom styling.
+* [Extender](https://mottie.github.io/Keyboard/docs/extender.html): Add a togglable layout (e.g. toggle number pad)
+* [Keyset](https://mottie.github.io/Keyboard/docs/preview-keyset.html): Show shift, alt or meta keyset within the virtual keyboard - custom styling.
+* [Mobile](https://mottie.github.io/Keyboard/docs/mobile.html): Use with jQuery Mobile &amp; jQuery [Mobile v1.4](https://mottie.github.io/Keyboard/docs/jquery-mobile-1.4.html).
+* [Navigate](https://mottie.github.io/Keyboard/docs/navigate.html): Use arrow, home, end &amp; page up/down to navigate inside of the keyboard.
+* [Scramble](https://mottie.github.io/Keyboard/docs/scramble.html): Scramble the entire keyset or by row, once or every time the keyboard is opened for added security.
+* [Typing](https://mottie.github.io/Keyboard/index.html#typing): Allows you to simulate typing into the keyboard for demo purposes or to assist user input.
 
 ## Dependencies
 
@@ -91,8 +91,6 @@ Wiki: [Home](https://github.com/Mottie/Keyboard/wiki/Home) | [FAQ](https://githu
 
 ## To Do
 
-* Waiting for requests :)
-* Add more regional keyboard layouts.
 * Add an input mask extension. I think I'll try to make it compatible with [this plugin](https://github.com/RobinHerbots/jquery.inputmask).
 * Allow attaching a keyboard to a contenteditable element.
 
@@ -139,39 +137,20 @@ Wiki: [Home](https://github.com/Mottie/Keyboard/wiki/Home) | [FAQ](https://githu
 
 Only the latest changes will be shown below, see the [wiki log](https://github.com/Mottie/Keyboard/wiki/Log) to view older versions.
 
-### Verison 1.26.9 (1/7/2017)
+### Version 1.26.12 (1/11/2017)
 
 * Core:
-  * Chained functions stop when keyboard is hidden.
-  * Add `getKeySet` method. See [issue #504](https://github.com/Mottie/Keyboard/issues/504).
-* Docs:
-  * Update `typeIn` code for meta demo.
+  * `enterNavigation` include virtual shift to switch input.
+  * Fix click to switch input in IE11. See [issue #138](https://github.com/Mottie/Keyboard/issues/138).
 
-### Verison 1.26.8 (1/5/2017)
+### Version 1.26.11 (1/10/2017)
 
-* Core:
-  * Meta keyset names no longer require a number. See [issue #504](https://github.com/Mottie/Keyboard/issues/504).
-    * Previously meta keyset name examples: `meta0`, `meta1`, ... `meta99`.
-    * Updated name examples: `meta0` (still allowed), `metakeys`, `meta_symbols`, `meta-greek`.
-    * The name **must** always start with `meta` followed by any of the following characters `A-Za-z0-9_-`.
-  * Update to allow the following functions to be chained:
-    * `checkMaxLength`
-    * `insertText`
-    * `redraw`
-    * `showKeySet`
-    * `toggle`
-  * The `redraw` function now accepts a layout parameter allowing the changing of the layout:
-    * Previously, you had to [get the `keyboard` object](https://github.com/Mottie/Keyboard/wiki/Usage#get-the-keyboard-object), set `keyboard.options.layouts = "new_layout";` then use `keyboard.redraw();`.
-    * Now you can get the `keyboard` object and use the following, `keyboard.redraw("new_layout");`.
-  * Add `caret` function:
-    * Previously you had to use `$.keyboard.caret(keyboard.$preview, start, end)` to set the caret position.
-    * In this update, you can get the `keyboard` object, then use `keyboard.caret(start, end)`.
-    * The target input is assumed to the the `keyboard.$preview` (updated to use `keyboard.$el` when `usePreview` is `false`).
-    * The `start` and `end` parameters match the `$.keyboard.caret()` function parameters - see [docs](https://github.com/Mottie/Keyboard/wiki/Methods#caret) for more details.
-    * This function is chainable: `keyboard.reveal().caret(4,5).insertText(' hola ').caret('end');` - this method **will* require setting the [`initialFocus` option](https://github.com/Mottie/Keyboard/wiki/Usability#initialfocus) to `false` to prevent issues with the caret position.
-* Typing:
-  * Update to handle keyset changes with the new meta keyset names.
+* Core: fix function bypass before keyboard visible.
+  * This set the initial keyset to display block, shifting the extender layout.
+  * Toggle button will now properly update.
 
-### Version 1.26.7 (12/23/2016)
+### Version 1.26.10 (1/8/2017)
 
-* Core: prevent form submission on hidden input. Fixes [issue #500](https://github.com/Mottie/Keyboard/issues/500).
+* Add Burmese language &amp; layout files. See [pull #507](https://github.com/Mottie/Keyboard/pull/507); thanks [@laminko](https://github.com/laminko)!
+* Update Burmese files.
+* Add Contributing & license files.
