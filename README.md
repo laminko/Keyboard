@@ -126,7 +126,7 @@ Wiki: [Home](https://github.com/Mottie/Keyboard/wiki/Home) | [FAQ](https://githu
 
 [npm-url]: https://npmjs.org/package/virtual-keyboard
 [npm-image]: https://img.shields.io/npm/v/virtual-keyboard.svg
-[david-dev-url]: https://david-dm.org/Mottie/keyboard#info=devDependencies
+[david-dev-url]: https://david-dm.org/Mottie/keyboard?type=dev
 [david-dev-image]: https://david-dm.org/Mottie/keyboard/dev-status.svg
 [bower-url]: http://bower.io/search/?q=keyboard
 [bower-image]: https://img.shields.io/bower/v/keyboard.svg
@@ -137,20 +137,41 @@ Wiki: [Home](https://github.com/Mottie/Keyboard/wiki/Home) | [FAQ](https://githu
 
 Only the latest changes will be shown below, see the [wiki log](https://github.com/Mottie/Keyboard/wiki/Log) to view older versions.
 
-### Version 1.26.12 (1/11/2017)
+### Version 1.26.19 (4/3/2017)
 
 * Core:
-  * `enterNavigation` include virtual shift to switch input.
-  * Fix click to switch input in IE11. See [issue #138](https://github.com/Mottie/Keyboard/issues/138).
+  * Prevent max call stack error. Fixes [issue #542](https://github.com/Mottie/Keyboard/issues/542).
+* Docs:
+  * Update jQuery to v3.2.0.
+* Autocomplete:
+  * Physical keyboard typing works again. Previously, only a mouse move would cause an update.
 
-### Version 1.26.11 (1/10/2017)
+### Version 1.26.18 (3/15/2017)
 
-* Core: fix function bypass before keyboard visible.
-  * This set the initial keyset to display block, shifting the extender layout.
-  * Toggle button will now properly update.
+* Core:
+  * Prevent JS error if caret doesn't return a function.
+  * Check event type before opening. Fixes [issue #527](https://github.com/Mottie/Keyboard/issues/527).
+  * Prevent JS error if keyaction closes the keyboard. Fixes [issue #526](https://github.com/Mottie/Keyboard/issues/526).
+  * Prevent checkCombos error after keyboard closes.
+* Docs:
+  * Stop using protocol relative urls.
+  * Update wiki links &amp; fix relative urls.
+  * Create a wiki page for each extension.
+* AltKeysPopup:
+  * Skip `setTimeout` when `holdTime` is zero. Fixes [issue #533](https://github.com/Mottie/Keyboard/issues/533).
+* Scramble:
+  * Add `randomizeInput` option. Fixes [issue #522](https://github.com/Mottie/Keyboard/issues/522).
+* Typing:
+  * Code cleanup.
+  * Fix `showTyping` when `false`.
+  * Allow setting `delay` to zero.
+  * Add `hoverDelay` option.
+* Meta:
+  * Update dependencies.
 
-### Version 1.26.10 (1/8/2017)
+### Version 1.26.17 (2/4/2017)
 
-* Add Burmese language &amp; layout files. See [pull #507](https://github.com/Mottie/Keyboard/pull/507); thanks [@laminko](https://github.com/laminko)!
-* Update Burmese files.
-* Add Contributing & license files.
+* Core:
+  * Fix empty `openOn`. See [issue #519](https://github.com/Mottie/Keyboard/issues/519).
+* Autocomplete:
+  * Get value from preview or original input. Fixes [issue #520](https://github.com/Mottie/Keyboard/issues/520).
