@@ -4,9 +4,9 @@
 ██  ██ ██  ██   ██  ██ ██  ██   ██     ██ ██ ██ ██  ██ ██  ██ ██ ██▀▀   ▀▀▀▀██
 █████▀ ▀████▀   ██  ██ ▀████▀   ██     ██ ██ ██ ▀████▀ █████▀ ██ ██     █████▀
 */
-/*! jQuery UI Virtual Keyboard (1.26.19) - ALL Extensions + Mousewheel */
-/*! jQuery UI Virtual Keyboard Alt Key Popup v1.1.2 *//*
- * for Keyboard v1.18+ only (3/15/2017)
+/*! jQuery UI Virtual Keyboard (1.26.22) - ALL Extensions + Mousewheel */
+/*! jQuery UI Virtual Keyboard Alt Key Popup v1.1.4 *//*
+ * for Keyboard v1.18+ only (4/28/2017)
  *
  * By Rob Garrison (aka Mottie)
  * Licensed under the MIT License
@@ -175,7 +175,7 @@
 								if ( event.type === 'keyup' ) {
 									clearTimeout( timer );
 									base.altkeypopup_blockingFlag = false;
-									return true;
+									return event.which !== $keyboard.navigationKeys.escape;
 								}
 								var tmp,
 									layout = $keyboard.builtLayouts[ base.layout ],
@@ -234,7 +234,7 @@
 					return;
 				}
 				var keys, $container, $keys, positionHoriz, positionVert, top,
-					popupWidth, popupHeight,
+					popupWidth, popupHeight, evts,
 					kbcss = $keyboard.css,
 					data = {
 						$kb      : base.$keyboard,
@@ -253,6 +253,12 @@
 					.bind( 'click touchstart', function() {
 						base.altKeyPopup_close();
 					});
+				evts = 'inactive hidden '
+					.split( ' ' )
+					.join( base.altkeypopup_namespace + ' ' );
+				base.$el.unbind( evts ).bind( evts, function() {
+					base.altKeyPopup_close();
+				});
 
 				// remove character added when key was initially pressed, unless it
 				// was a backspace key
@@ -286,10 +292,9 @@
 						base.altKeyPopup_close();
 					})
 					.bind( 'mouseover mouseleave', function( event ){
-						if ( event.type === 'mouseleave' ) {
-							// remove hover from physical keyboard highlighted key
-							$keys.removeClass( base.options.css.buttonHover );
-						} else {
+						// remove hover from physical keyboard highlighted key
+						$keys.removeClass( base.options.css.buttonHover );
+						if ( event.type !== 'mouseleave' ) {
 							$( this ).addClass( base.options.css.buttonHover );
 						}
 					});
@@ -307,6 +312,7 @@
 					})
 					.bind( 'keyup' + base.altkeypopup_namespace, function( event ) {
 						if ( event.which === $keyboard.navigationKeys.escape ) {
+							event.which = 0; // prevent escClose from closing the keyboard
 							base.altKeyPopup_close();
 						} else {
 							base.altKeyPopup_navigate( event );
@@ -1194,8 +1200,8 @@ $.fn.addMobile = function(options){
 
 }));
 
-/*! jQuery UI Virtual Keyboard Navigation v1.6.1 *//*
- * for Keyboard v1.18+ only (updated 7/7/2015)
+/*! jQuery UI Virtual Keyboard Navigation v1.6.2 *//*
+ * for Keyboard v1.18+ only (updated 4/28/2017)
  *
  * By Rob Garrison (aka Mottie & Fudgey)
  * Licensed under the MIT License
@@ -1326,7 +1332,10 @@ $.fn.addNavigation = function(options){
 			}
 		};
 
-		base.navigateKeys = function(key, row, indx){
+		base.navigateKeys = function(key, row, indx) {
+			if (!base.isVisible()) {
+				return;
+			}
 			indx = typeof indx === 'number' ? indx : o.position[1];
 			row = typeof row === 'number' ? row : o.position[0];
 			var kbcss = $.keyboard.css,
@@ -1367,7 +1376,7 @@ $.fn.addNavigation = function(options){
 		};
 
 		// visible event is fired before this extension is initialized, so check!
-		if (base.options.alwaysOpen && base.isVisible) {
+		if (base.options.alwaysOpen && base.isVisible()) {
 			base.$keyboard.find('.' + opts.css.buttonHover).removeClass(opts.css.buttonHover);
 			base.navigation_init();
 		}
@@ -1773,7 +1782,7 @@ $.keyboard = $.keyboard || {};
 
 }));
 
-/*! jQuery UI Virtual Keyboard Typing Simulator v1.11.0 *//*
+/*! jQuery UI Virtual Keyboard Typing Simulator v1.11.1 *//*
  * for Keyboard v1.18+ only (3/15/2017)
  *
  * By Rob Garrison (aka Mottie)
@@ -2087,10 +2096,8 @@ $.keyboard = $.keyboard || {};
 							// show correct key set
 							base.shiftActive = /shift/.test( meta );
 							base.altActive = /alt/.test( meta );
-							base.metaActive = base.last.keyset[ 2 ] =
-								( meta ).match(/meta[\w-]+/) || false;
-							// make the plugin think we're passing it a jQuery object with a
-							// name
+							base.metaActive = base.last.keyset[ 2 ] = /\bmeta/.test(meta) ?
+								( meta ).match(/meta[\w-]+/)[0] : false;
 							base.showSet( base.metaActive );
 						}
 						// Add the key

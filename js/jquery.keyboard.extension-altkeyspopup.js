@@ -1,5 +1,5 @@
-/*! jQuery UI Virtual Keyboard Alt Key Popup v1.1.2 *//*
- * for Keyboard v1.18+ only (3/15/2017)
+/*! jQuery UI Virtual Keyboard Alt Key Popup v1.1.4 *//*
+ * for Keyboard v1.18+ only (4/28/2017)
  *
  * By Rob Garrison (aka Mottie)
  * Licensed under the MIT License
@@ -168,7 +168,7 @@
 								if ( event.type === 'keyup' ) {
 									clearTimeout( timer );
 									base.altkeypopup_blockingFlag = false;
-									return true;
+									return event.which !== $keyboard.navigationKeys.escape;
 								}
 								var tmp,
 									layout = $keyboard.builtLayouts[ base.layout ],
@@ -227,7 +227,7 @@
 					return;
 				}
 				var keys, $container, $keys, positionHoriz, positionVert, top,
-					popupWidth, popupHeight,
+					popupWidth, popupHeight, evts,
 					kbcss = $keyboard.css,
 					data = {
 						$kb      : base.$keyboard,
@@ -246,6 +246,12 @@
 					.bind( 'click touchstart', function() {
 						base.altKeyPopup_close();
 					});
+				evts = 'inactive hidden '
+					.split( ' ' )
+					.join( base.altkeypopup_namespace + ' ' );
+				base.$el.unbind( evts ).bind( evts, function() {
+					base.altKeyPopup_close();
+				});
 
 				// remove character added when key was initially pressed, unless it
 				// was a backspace key
@@ -279,10 +285,9 @@
 						base.altKeyPopup_close();
 					})
 					.bind( 'mouseover mouseleave', function( event ){
-						if ( event.type === 'mouseleave' ) {
-							// remove hover from physical keyboard highlighted key
-							$keys.removeClass( base.options.css.buttonHover );
-						} else {
+						// remove hover from physical keyboard highlighted key
+						$keys.removeClass( base.options.css.buttonHover );
+						if ( event.type !== 'mouseleave' ) {
 							$( this ).addClass( base.options.css.buttonHover );
 						}
 					});
@@ -300,6 +305,7 @@
 					})
 					.bind( 'keyup' + base.altkeypopup_namespace, function( event ) {
 						if ( event.which === $keyboard.navigationKeys.escape ) {
+							event.which = 0; // prevent escClose from closing the keyboard
 							base.altKeyPopup_close();
 						} else {
 							base.altKeyPopup_navigate( event );
