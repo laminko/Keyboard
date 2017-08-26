@@ -1,4 +1,4 @@
-/*! jQuery UI Virtual Keyboard v1.26.22 *//*
+/*! jQuery UI Virtual Keyboard v1.26.26 *//*
 Author: Jeremy Satterfield
 Maintained: Rob Garrison (Mottie on github)
 Licensed under the MIT License
@@ -42,7 +42,7 @@ http://www.opensource.org/licenses/mit-license.php
 	var $keyboard = $.keyboard = function (el, options) {
 	var o, base = this;
 
-	base.version = '1.26.22';
+	base.version = '1.26.26';
 
 	// Access to jQuery and DOM versions of element
 	base.$el = $(el);
@@ -725,10 +725,11 @@ http://www.opensource.org/licenses/mit-license.php
 	base.bindKeyboard = function () {
 		var evt,
 			keyCodes = $keyboard.keyCodes,
-			layout = $keyboard.builtLayouts[base.layout];
+			layout = $keyboard.builtLayouts[base.layout],
+			namespace = base.namespace + 'keybindings';
 		base.$preview
 			.unbind(base.namespace)
-			.bind('click' + base.namespace + ' touchstart' + base.namespace, function () {
+			.bind('click' + namespace + ' touchstart' + namespace, function () {
 				if (o.alwaysOpen && !base.isCurrent()) {
 					base.reveal();
 				}
@@ -740,7 +741,7 @@ http://www.opensource.org/licenses/mit-license.php
 				}, 150);
 
 			})
-			.bind('keypress' + base.namespace, function (e) {
+			.bind('keypress' + namespace, function (e) {
 				if (o.lockInput) {
 					return false;
 				}
@@ -753,6 +754,11 @@ http://www.opensource.org/licenses/mit-license.php
 					k1 = k >= keyCodes.A && k <= keyCodes.Z,
 					k2 = k >= keyCodes.a && k <= keyCodes.z,
 					str = base.last.key = String.fromCharCode(k);
+				// check, that keypress wasn't rise by functional key
+				// space is first typing symbol in UTF8 table
+				if (k < keyCodes.space) { //see #549
+					return;
+				}
 				base.last.virtual = false;
 				base.last.event = e;
 				base.last.$key = []; // not a virtual keyboard key
@@ -809,7 +815,7 @@ http://www.opensource.org/licenses/mit-license.php
 				base.checkMaxLength();
 
 			})
-			.bind('keyup' + base.namespace, function (e) {
+			.bind('keyup' + namespace, function (e) {
 				if (!base.isCurrent()) { return; }
 				base.last.virtual = false;
 				switch (e.which) {
@@ -874,7 +880,7 @@ http://www.opensource.org/licenses/mit-license.php
 					}
 				}
 			})
-			.bind('keydown' + base.namespace, function (e) {
+			.bind('keydown' + namespace, function (e) {
 				base.last.keyPress = e.which;
 				// ensure alwaysOpen keyboards are made active
 				if (o.alwaysOpen && !base.isCurrent()) {
@@ -921,7 +927,7 @@ http://www.opensource.org/licenses/mit-license.php
 					break;
 				}
 			})
-			.bind('mouseup touchend '.split(' ').join(base.namespace + ' '), function () {
+			.bind('mouseup touchend '.split(' ').join(namespace + ' '), function () {
 				base.last.virtual = true;
 				base.saveCaret();
 			});
@@ -2193,6 +2199,7 @@ http://www.opensource.org/licenses/mit-license.php
 		if (o.usePreview) {
 			base.$preview.removeData('keyboard');
 		}
+		base.$preview.unbind(base.namespace + 'keybindings');
 		base.preview = null;
 		base.$preview = null;
 		base.$previewCopy = null;
@@ -2218,6 +2225,7 @@ http://www.opensource.org/licenses/mit-license.php
 			].join(' ');
 		clearTimeout(base.timer);
 		clearTimeout(base.timer2);
+		clearTimeout(base.timer3);
 		if (base.$keyboard.length) {
 			base.removeKeyboard();
 		}
@@ -2383,7 +2391,7 @@ http://www.opensource.org/licenses/mit-license.php
 			var tag = base.el.nodeName,
 				o = base.options;
 			// shift+enter in textareas
-			if (e.shiftKey || base.shiftActive) {
+			if (e.shiftKey) {
 				// textarea & input - enterMod + shift + enter = accept, then go to prev;
 				//  base.switchInput(goToNext, autoAccept)
 				// textarea & input - shift + enter = accept (no navigation)

@@ -137,24 +137,16 @@ Wiki: [Home](https://github.com/Mottie/Keyboard/wiki/Home) | [FAQ](https://githu
 
 Only the latest changes will be shown below, see the [wiki log](https://github.com/Mottie/Keyboard/wiki/Log) to view older versions.
 
-### Version 1.26.22 (4/28/2017)
+### Version 1.26.26 (7/27/2017)
 
-* AltKeysPopup: remove old highlight on hover. Fixes [issue #556](https://github.com/Mottie/Keyboard/issues/556).
-* Navigation: properly highlight key on reveal. Fixes [issue #557](https://github.com/Mottie/Keyboard/issues/557).
+* Navigation:
+  * Add `rowLooping` option. See [pull #576](https://github.com/Mottie/Keyboard/pull/576); thanks [@bsurai](https://github.com/bsurai)!
+  * When last key in a row is selected, moving up and down now stays on the last key in the row. See [pull #583](https://github.com/Mottie/Keyboard/pull/583) &amp; [issue #581](https://github.com/Mottie/Keyboard/issues/581); thanks [@bsurai](https://github.com/bsurai)!
 
-### Version 1.26.21 (4/25/2017)
+### Version 1.26.25 (7/9/2017)
 
-* AltKeysPopup: properly close popup when keyboard hides. Fixes [issue #553](https://github.com/Mottie/Keyboard/issues/553).
+* Clear timer3 timeout on keyboard destroy. See [pull #573](https://github.com/Mottie/Keyboard/pull/573); thanks [@martin-vavra](https://github.com/martin-vavra)!
 
-### Version 1.26.20 (4/24/2017)
+### Version 1.26.24 (7/5/2017)
 
-* Core:
-  * keyboard will reposition on keyset change. Fixes [issue #547](https://github.com/Mottie/Keyboard/issues/547).
-  * Restore keyup event. Fixes [issue #552](https://github.com/Mottie/Keyboard/issues/552).
-  * Fix active meta + shift/alt keys.
-* AltKeysPopup:
-  * Restore keyup event. Fixes [issue #552](https://github.com/Mottie/Keyboard/issues/552).
-* Typing:
-  * Fix active meta + shift/alt keys.
-* Meta:
-  * Update dependencies.
+* Revert virtual enter navigation commit. Fixes [issue #572](https://github.com/Mottie/Keyboard/issues/572).
